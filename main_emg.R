@@ -23,7 +23,9 @@ for(v in colnames(data.emg)) {
     tmp.var = vector(mode='numeric')
     for(i in seq(1, nrow(data.emg)/10)) {
         # TODO: proc NA if it in a 10 elem vector
-        tmp.var[i] = median(data.emg[[v]][i:(i+9)])
+        slice = data.emg[[v]][i:(i+9)]
+        #tmp.var[i] = max(slice, na.rm = T)
+        tmp.var[i] = median(slice, na.rm = T)
     }
     tmp.emg[v] = tmp.var
 }
