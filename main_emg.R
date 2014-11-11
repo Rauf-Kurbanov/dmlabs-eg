@@ -4,12 +4,17 @@ library(ggplot2)
 library(tabplot)
 library(PerformanceAnalytics)
 
-unfactor.df <- function(df){
-    # Find the factors
-    id <- sapply(df, is.factor)
-    # Convert to characters
-    df[id] <- lapply(df[id], function(x) as.numeric(as.character(x)))
-    df
+unfactorVec <- function(vec) {
+  tmp <- vec
+  tmp <- as.character(tmp)
+  tmp <- as.numeric(tmp)
+  
+  # Replace missing values by adjacent
+  while (any(is.na(tmp))) {
+    naInd <- which(tmp %in% NA)
+    tmp[naInd] <- tmp[naInd - 1]  
+  }
+  tmp
 }
 
 ### Load data
@@ -18,10 +23,7 @@ data.axis = read.csv('data/Natehin/0-axis.csv', header = F, sep = ";")
 data.emg = read.csv('data/Natehin/0-emg.csv', header = F, sep = ";")
 
 ### Correct data.emg
-data.emg = unfactor.df(data.emg)
-tmp = data.emg$V5
-mask = abs(tmp) > 10 
-data.emg$V5[which(mask)] = NA
+data.emg$V5 <- unfactorVec(data.emg$V5)
 
 ### Thin out data.emg
 tmp.emg = data.frame(matrix(ncol = 0, nrow = nrow(data.emg)/10))
