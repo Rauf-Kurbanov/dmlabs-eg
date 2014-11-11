@@ -1,8 +1,5 @@
 library(randomForest)
 library(rminer)
-library(ggplot2)
-library(tabplot)
-library(PerformanceAnalytics)
 
 unfactorVec <- function(vec) {
   tmp <- vec

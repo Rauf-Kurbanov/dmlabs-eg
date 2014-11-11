@@ -1,3 +1,7 @@
+library(ggplot2)
+library(tabplot)
+library(PerformanceAnalytics)
+
 # Data summary and visualivation
 summary(tmp.emg)
 
